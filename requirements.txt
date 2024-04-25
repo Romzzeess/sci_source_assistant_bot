@@ -26,5 +26,14 @@ django-celery-beat==2.3.0
 # Telegram
 python-telegram-bot==13.15  # last sync version
 
+# Parsers
+beautifulsoup4==4.12.3
+pdfminer
+joblib==1.4.0
+
+# Agents
+tiktoken==0.6.0
+gigachain==0.1.16
+
 # monitoring
 # sentry-sdk
