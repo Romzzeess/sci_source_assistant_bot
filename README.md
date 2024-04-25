@@ -5,7 +5,7 @@
 The fastest way to run the bot is to run it in polling mode using SQLite database without all Celery workers for background jobs. This should be enough for quickstart:
 
 ``` bash
-git clone https://github.com/ohld/django-telegram-bot
+git clone https://github.com/Romzzeess/sci_source_assistant_bot.git
 cd django-telegram-bot
 ```
 
