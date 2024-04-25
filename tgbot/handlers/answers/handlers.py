@@ -91,11 +91,10 @@ def send_articles(update: Update, context: CallbackContext):
         meta = articles[i]['meta']
         authors = meta.author.strip() if meta.author else 'Unknown'
         title = meta.title.strip()
-        container_title = meta.container_title.strip()
         date = meta.date.strip().split(",")[0]
         page = meta.page.strip()
         source = f'<a href="https://doi.org/{meta.DOI.strip()}">{meta.DOI.strip()}</a>'
-        meta_text = f'<code>{i + 1}. {authors.strip()} {title}. {container_title}. {date} {page}.</code>\n\n' \
+        meta_text = f'<code>{i + 1}. {authors.strip()}. {title}.{date} {page}.</code>\n\n' \
                     f'🔗 {source}\n' \
 
         send_one_message(user_id=user_id, text=meta_text)

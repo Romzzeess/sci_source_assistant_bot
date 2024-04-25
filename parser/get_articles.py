@@ -15,6 +15,8 @@ QUESTIONS_PATH = "./questions"
 PDF_PATH = './articles'
 
 
+
+
 def get_articles(answer: str, count=3, max_try=25, config=Config()):
 	articles = []
 	dois = []
