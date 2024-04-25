@@ -8,7 +8,6 @@ import json
 from .utils import Config, SciItem
 
 
-PDF_PATH = './articles'
 PROJECT_MAIL = os.getenv("PROJECT_MAIL")
 
 
@@ -18,8 +17,8 @@ class PdfParser:
         self.config = config
         self.path = None
 
-    def parse(self) -> SciItem:
-        self.path = rf'{PDF_PATH}/{self.doi.replace("&&&", "?").replace("https://", "&&").replace("http://", "&&").replace("/", "&") + ".pdf"}'
+    def parse(self, path_save: str) -> SciItem:
+        self.path = rf'{path_save}/{self.doi.replace("&&&", "?").replace("https://", "&&").replace("http://", "&&").replace("/", "&") + ".pdf"}'
         item = self.parse_unpay()
 
         return item
