@@ -6,7 +6,7 @@ The fastest way to run the bot is to run it in polling mode using SQLite databas
 
 ``` bash
 git clone https://github.com/Romzzeess/sci_source_assistant_bot.git
-cd django-telegram-bot
+cd sci_source_assistant_bot
 ```
 
 Create virtual environment (optional)
@@ -26,6 +26,8 @@ don't forget to change telegram token:
 DJANGO_DEBUG=True
 DATABASE_URL=sqlite:///db.sqlite3
 TELEGRAM_TOKEN=<PASTE YOUR TELEGRAM TOKEN HERE>
+credentials=<paste your credentials to access gigachat>
+PROJECT_MAIL=<paste your mail to access unpay>
 ```
 
 Run migrations to setup SQLite database:
