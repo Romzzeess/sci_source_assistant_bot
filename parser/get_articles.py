@@ -12,9 +12,10 @@ from .utils import Config
 
 
 QUESTIONS_PATH = "./questions"
+PDF_PATH = './articles'
 
 
-def get_articles(answer: str, count=3, max_try=15, config=Config()):
+def get_articles(answer: str, path: str, count=3, max_try=25, config=Config()):
 	articles = []
 	dois = []
 	i = 0
@@ -28,23 +29,28 @@ def get_articles(answer: str, count=3, max_try=15, config=Config()):
 			data = response.json()['message']
 		except Exception as e:
 			logging.info(f"Error in parsing Crossref e = {e}")
-			return False
+			pass
+
+		path_save = PDF_PATH + f"/{path}"
 
 		doi = data["items"][0]["DOI"]
 
 		try:
-			pdf = PdfParser(doi, config).parse()
+			pdf = PdfParser(doi=doi, config=config).parse(path_save=path_save)
 		except Exception as e:
 			logging.info(f"Error in parsing PDF e = {e}")
-			return False
+			pass
 
 		if pdf:
-			articles.append({
-				"meta": CrossrefParser(doi, config).parse(),
-				"text": pdf_to_text(pdf.file_path),
-				"path": pdf.file_path
-			})
-
+			try:
+				articles.append({
+					"meta": CrossrefParser(doi, config).parse(),
+					"text": pdf_to_text(pdf.file_path),
+					"path": pdf.file_path
+				})
+			except Exception as e:
+				logging.info(f"Error in read PDF e = {e}")
+				pass
 		else:
 			dois.append(doi)
 
@@ -53,6 +59,6 @@ def get_articles(answer: str, count=3, max_try=15, config=Config()):
 	if not os.path.isdir("QUESTIONS_PATH"):
 		os.mkdir("QUESTIONS_PATH")
 
-	joblib.dump(articles, QUESTIONS_PATH + f"/{answer}.joblib")
+	joblib.dump(articles, QUESTIONS_PATH + f"/{path}.joblib")
 
 	return articles, dois

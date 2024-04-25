@@ -5,6 +5,7 @@ from langchain.chains.llm import LLMChain
 from langchain_core.prompts import PromptTemplate
 from langchain_text_splitters import CharacterTextSplitter
 from langchain.schema import HumanMessage, SystemMessage
+import translators as ts
 
 
 # Инициализация модели гигачат про
@@ -30,6 +31,10 @@ def translate_topic_to_ru(text: str, llm=giga):
 	]
 	result = llm(messages)
 	return result.content
+
+
+def translate_to_en(text):
+	return ts.translate_text(str(text), translator='google', to_language='en')
 
 
 def summarize_documents(documents: list[str], llm=giga):
