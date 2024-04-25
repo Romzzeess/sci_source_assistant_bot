@@ -15,7 +15,7 @@ QUESTIONS_PATH = "./questions"
 PDF_PATH = './articles'
 
 
-def get_articles(answer: str, path: str, count=3, max_try=25, config=Config()):
+def get_articles(answer: str, count=3, max_try=25, config=Config()):
 	articles = []
 	dois = []
 	i = 0
@@ -31,12 +31,10 @@ def get_articles(answer: str, path: str, count=3, max_try=25, config=Config()):
 			logging.info(f"Error in parsing Crossref e = {e}")
 			pass
 
-		path_save = PDF_PATH + f"/{path}"
-
 		doi = data["items"][0]["DOI"]
 
 		try:
-			pdf = PdfParser(doi=doi, config=config).parse(path_save=path_save)
+			pdf = PdfParser(doi=doi, config=config).parse()
 		except Exception as e:
 			logging.info(f"Error in parsing PDF e = {e}")
 			pass
@@ -59,6 +57,6 @@ def get_articles(answer: str, path: str, count=3, max_try=25, config=Config()):
 	if not os.path.isdir("QUESTIONS_PATH"):
 		os.mkdir("QUESTIONS_PATH")
 
-	joblib.dump(articles, QUESTIONS_PATH + f"/{path}.joblib")
+	joblib.dump(articles, QUESTIONS_PATH + f"/{answer}.joblib")
 
 	return articles, dois

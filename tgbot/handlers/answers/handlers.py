@@ -45,14 +45,7 @@ def answer_message(update: Update, context: CallbackContext):
     user_id = extract_user_data_from_update(update)['user_id']
 
     if not os.path.exists(QUESTIONS_PATH + f"/{text}.joblib"):
-        try:
-            articles, dois = get_articles(answer=en_text, path=text)
-        except:
-            update.message.reply_text(
-                text=texts['unfound'],
-                parse_mode=telegram.ParseMode.HTML,
-            )
-            return
+        articles, dois = get_articles(answer=en_text)
 
     else:
         articles = joblib.load(QUESTIONS_PATH + f"/{text}.joblib")
