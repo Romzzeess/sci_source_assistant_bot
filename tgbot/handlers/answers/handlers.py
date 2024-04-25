@@ -1,4 +1,5 @@
 import time
+import os
 
 import joblib
 import telegram
@@ -9,7 +10,7 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from .static_text import entry_assistant, confirm_start_assistant, send_pdf, texts
 from tgbot.handlers.broadcast_message.utils import delete_message, send_one_message, send_document
 
-from agents.summary import get_summary
+from agents.summary import summarize_documents
 from parser.get_articles import get_articles
 
 
@@ -34,7 +35,12 @@ def answer_message(update: Update, context: CallbackContext):
             parse_mode=telegram.ParseMode.HTML,
         )
 
-    articles, dois = get_articles(text)
+    if not os.path.exists(QUESTIONS_PATH + f"/{text}.joblib"):
+        articles, dois = get_articles(text)
+    else:
+        articles = joblib.load(QUESTIONS_PATH + f"/{text}.joblib")
+
+    summary = summarize_documents([article['text'] for article in articles])
 
     reply_markup = InlineKeyboardMarkup(
         [[
@@ -46,7 +52,7 @@ def answer_message(update: Update, context: CallbackContext):
 
     try:
         update.message.reply_text(
-            text=f"{texts['summary_form']}{text}",
+            text=f"{texts['summary_form']}{summary}",
             parse_mode=telegram.ParseMode.HTML,
             reply_markup=reply_markup
         )

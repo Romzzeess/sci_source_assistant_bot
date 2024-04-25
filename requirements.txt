@@ -31,5 +31,9 @@ beautifulsoup4==4.12.3
 pdfminer
 joblib==1.4.0
 
+# Agents
+tiktoken==0.6.0
+gigachain==0.1.16
+
 # monitoring
 # sentry-sdk
